@@ -18,13 +18,23 @@ const MyNavber = () => {
           </Link>
           <form>
             <button type="button" className="btn btn-outline-light">
-              <Link className="nav-link" to="/about">
-                About
+              <Link className="nav-link" to="/profile">
+                Profile
               </Link>
             </button>{' '}
             <button type="button" className="btn btn-outline-light">
-              <Link className="nav-link" to="/contact">
-                Contact
+              <Link className="nav-link" to="/Add">
+                Add
+              </Link>
+            </button>{' '}
+            <button type="button" className="btn btn-outline-light">
+              <Link className="nav-link" to="/login">
+                Login
+              </Link>
+            </button>{' '}
+            <button type="button" className="btn btn-outline-light">
+              <Link className="nav-link" to="/signup">
+                Signup
               </Link>
             </button>
           </form>

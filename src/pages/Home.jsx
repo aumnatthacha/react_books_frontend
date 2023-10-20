@@ -1,13 +1,16 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { booksData } from './booksData';
 import './home.css';
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const [books, setBooks] = useState(booksData);
   const [selectedBook, setSelectedBook] = useState(null);
+  const navigate = useNavigate();
 
   const handleEdit = (book) => {
     setSelectedBook(book);
@@ -29,7 +32,7 @@ const Home = () => {
               <h2>{book.title}</h2>
               <p>{book.description}</p>
               <div className="button-container">
-                <Button variant="success" onClick={() => handleEdit(book)}>
+                <Button variant="success" onClick={() => navigate('../update/' + book.id)}>
                   <i className="bi bi-arrow-repeat"></i> แก้ไข
                 </Button>
                 <Button variant="danger" onClick={() => handleDelete(book.id)}>

@@ -1,0 +1,10 @@
+.resized-image {
+    max-width: 300px; /* ปรับขนาดเป็นขนาดที่คุณต้องการ */
+    max-height: 200px; /* ปรับขนาดเป็นขนาดที่คุณต้องการ */
+    
+}
+
+.container-sm {
+    max-width: 400px; 
+}
+

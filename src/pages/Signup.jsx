@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
 
-export default function About() {
+export default function Signup() {
   return (
-    <div>About</div>
+    <div>Signup</div>
   )
 }
