@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -9,10 +10,14 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { booksData } from './booksData';
+import { Navigate, useNavigate } from 'react-router-dom';
+
+
 
 const defaultTheme = createTheme();
 
 export default function Update() {
+
     const [books, setBooks] = React.useState(booksData[0]);
 
     const handleInputChange = (event) => {
@@ -29,8 +34,9 @@ export default function Update() {
         // Add code to update data in the database or perform further actions
     };
 
+    const navigate = useNavigate()
     const handleCancel = () => {
-        setBooks(booksData[0]);
+        navigate('/')
     };
 
     return (

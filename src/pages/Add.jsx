@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -8,30 +9,34 @@ import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const defaultTheme = createTheme();
 
 export default function Add() {
-    const [newBook, setNewBook] = React.useState({
+    const navigate = useNavigate()
+    const [book, setBook] = useState({
         name: '',
-        type: '',
-        imageURL: '',
+        description: '',
+        img: '',
     });
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setNewBook({
-            ...newBook,
+        setBook({
+            ...book,
             [name]: value,
         });
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(newBook);
-        // Add code to save the new book data to the database or perform further actions
+    const handleAddBook = () => {
+        // 
     };
 
+    const handleCancel = () => {
+        navigate('/')
+    };
     return (
         <ThemeProvider theme={defaultTheme}>
             <Container component="main" maxWidth="md">
@@ -49,12 +54,12 @@ export default function Add() {
                     </Typography>
                     <Card sx={{ display: 'flex', justifyContent: 'center', alignItems: 'stretch' }}>
                         <img
-                            src={newBook.imageURL}
+                            src={book.imageURL}
                             alt="รูปภาพ"
                             style={{ width: '235px', height: '375px' }}
                         />
                         <CardContent style={{ flex: 1 }}>
-                            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                            <Box component="form" onSubmit={handleAddBook} noValidate sx={{ mt: 1 }}>
                                 <TextField
                                     margin="normal"
                                     required
@@ -64,7 +69,7 @@ export default function Add() {
                                     name="name"
                                     autoComplete="name"
                                     autoFocus
-                                    value={newBook.name}
+                                    value={book.name}
                                     onChange={handleInputChange}
                                 />
                                 <TextField
@@ -75,7 +80,7 @@ export default function Add() {
                                     label="ประเภท"
                                     type="text"
                                     autoComplete="type"
-                                    value={newBook.type}
+                                    value={book.type}
                                     onChange={handleInputChange}
                                 />
                                 <TextField
@@ -86,7 +91,7 @@ export default function Add() {
                                     label="URL รูปภาพ"
                                     type="text"
                                     autoComplete="img"
-                                    value={newBook.imageURL}
+                                    value={book.imageURL}
                                     onChange={handleInputChange}
                                 />
 
@@ -98,6 +103,15 @@ export default function Add() {
                                         sx={{ mt: 3, mb: 2 }}
                                     >
                                         เพิ่มหนังสือ
+                                    </Button>
+                                    <Button
+                                        type="button"
+                                        fullWidth
+                                        variant="outlined"
+                                        sx={{ mb: 2 }}
+                                        onClick={handleCancel}
+                                    >
+                                        Cancel
                                     </Button>
                                 </div>
                             </Box>
