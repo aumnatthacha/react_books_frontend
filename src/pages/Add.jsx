@@ -1,96 +1,110 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './update.css'; // แนะนำให้ใช้ไฟล์ CSS ที่เหมาะสมสำหรับ "Add" หรือจัดรูปแบบตามต้องการ
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const Add = () => {
-    const navigate = useNavigate()
-    const [book, setBook] = useState({
+const defaultTheme = createTheme();
+
+export default function Add() {
+    const [newBook, setNewBook] = React.useState({
         name: '',
-        description: '',
-        img: '',
+        type: '',
+        imageURL: '',
     });
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
-        setBook({
-            ...book,
+        setNewBook({
+            ...newBook,
             [name]: value,
         });
     };
 
-    const handleAddBook = () => {
-        // ทำสิ่งที่คุณต้องการเพิ่มหนังสือลงในรายการที่คุณเก็บไว้ เช่นใช้ฟังก์ชันเพิ่มข้อมูล
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        console.log(newBook);
+        // Add code to save the new book data to the database or perform further actions
     };
 
-    const handleCancel = () => {
-        navigate('/')
-    };
-    
     return (
-        <div>
-            <h2 className="text-center">Add Book</h2>
-            <form className="container-sm">
-                <div className="mb-3">
-                    <label htmlFor="name" className="form-label">
-                        ชื่อหนังสือ:
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="name"
-                        name="name"
-                        value={book.name}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="description" className="form-label">
-                        คำอธิบาย:
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="description"
-                        name="description"
-                        value={book.description}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="img" className="form-label">
-                        URL รูปภาพ:
-                    </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="img"
-                        name="img"
-                        value={book.img}
-                        onChange={handleInputChange}
-                    />
-                </div>
-                <div className="mb-3">
-                    <label className="form-label">ตัวอย่างรูปภาพ:</label>
-                    <br />
-                    <img
-                        src={book.img}
-                        className="img-fluid resized-image"
-                        alt="รูปภาพ"
-                    />
-                </div>
-                <div className="d-grid gap-2">
-                    <button type="button" className="btn btn-success form-control" onClick={handleAddBook}>
-                        เพิ่มหนังสือ
-                    </button>
-                    <button type="button" className="btn btn-danger form-control" onClick={handleCancel}>
-                        ยกเลิก
-                    </button>
-                </div>
-            </form>
-        </div>
+        <ThemeProvider theme={defaultTheme}>
+            <Container component="main" maxWidth="md">
+                <CssBaseline />
+                <Box
+                    sx={{
+                        marginTop: 10,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Typography component="h1" variant="h5">
+                        Add New Book
+                    </Typography>
+                    <Card sx={{ display: 'flex', justifyContent: 'center', alignItems: 'stretch' }}>
+                        <img
+                            src={newBook.imageURL}
+                            alt="รูปภาพ"
+                            style={{ width: '235px', height: '375px' }}
+                        />
+                        <CardContent style={{ flex: 1 }}>
+                            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="name"
+                                    label="ชื่อหนังสือ"
+                                    name="name"
+                                    autoComplete="name"
+                                    autoFocus
+                                    value={newBook.name}
+                                    onChange={handleInputChange}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="type"
+                                    label="ประเภท"
+                                    type="text"
+                                    autoComplete="type"
+                                    value={newBook.type}
+                                    onChange={handleInputChange}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="img"
+                                    label="URL รูปภาพ"
+                                    type="text"
+                                    autoComplete="img"
+                                    value={newBook.imageURL}
+                                    onChange={handleInputChange}
+                                />
+
+                                <div className="d-grid gap-2">
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        sx={{ mt: 3, mb: 2 }}
+                                    >
+                                        เพิ่มหนังสือ
+                                    </Button>
+                                </div>
+                            </Box>
+                        </CardContent>
+                    </Card>
+                </Box>
+            </Container>
+        </ThemeProvider>
     );
-};
-
-export default Add;
-
+}

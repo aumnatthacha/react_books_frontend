@@ -1,11 +1,13 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { booksData } from './booksData';
-import './home.css';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [books, setBooks] = useState(booksData);
@@ -21,28 +23,72 @@ const Home = () => {
     setBooks(updatedBooks);
   };
 
+  const groupSize = 5; // จำนวนรายการในแต่ละกลุ่ม
+
+  const groupedBooks = books.reduce((result, item, index) => {
+    const groupIndex = Math.floor(index / groupSize);
+    if (!result[groupIndex]) {
+      result[groupIndex] = [];
+    }
+    result[groupIndex].push(item);
+    return result;
+  }, []);
+
   return (
-    <div className='row py-lg-5'>
-      <h1 className='h1_books'>THE BOOKS</h1>
-      <ul className="books-list row py-lg-5">
-        {books.map((book) => (
-          <li key={book.id} className="books-card">
-            <div>
-              <img src={book.imageURL} alt={book.title} />
-              <h2>{book.title}</h2>
-              <p>{book.description}</p>
-              <div className="button-container">
-                <Button variant="success" onClick={() => navigate('../update/' + book.id)}>
+    <div>
+      {groupedBooks.map((group, groupIndex) => (
+        <div
+          key={groupIndex}
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center', // จัดให้อยู่ตรงกลาง
+            marginTop: '6rem', // ระยะห่างด้านบน
+          }}
+        >
+          {group.map((book) => (
+            <Card
+              key={book.id}
+              sx={{
+                maxWidth: 167,
+                width: '23%',
+                marginBottom: '4rem', // ระยะห่างระหว่างรายการ
+                marginLeft: '1.5rem', // ระยะห่างด้านซ้าย
+                marginRight: '1.5rem', // ระยะห่างด้านขวา
+                borderRadius: '1px',
+              }}
+              className="books-card"
+            >
+              <CardMedia
+                component="img"
+                style={{
+                  maxWidth: '167px',
+                  maxHeight: '250px',
+                }}
+                alt={book.name}
+                image={book.imageURL}
+                sx={{ objectFit: 'cover' }}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {book.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {book.type}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button onClick={() => navigate('../update/' + book.id)}>
                   <i className="bi bi-arrow-repeat"></i> แก้ไข
                 </Button>
-                <Button variant="danger" onClick={() => handleDelete(book.id)}>
+                <Button onClick={() => handleDelete(book.id)}>
                   <i className="bi bi-trash"></i> ลบ
                 </Button>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
+              </CardActions>
+            </Card>
+          ))}
+        </div>
+      ))}
     </div>
   );
 };
