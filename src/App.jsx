@@ -14,7 +14,7 @@ import Test from './pages/test';
 function App() {
   return (
     <Router>
-      <div className="App">ห
+      <div className="App">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
