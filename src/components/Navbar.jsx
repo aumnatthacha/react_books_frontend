@@ -14,8 +14,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Add','Login'];
-const settings = ['Profile','Logout'];
+const pages = ['Add', 'Login'];
+const settings = ['/Profile', 'Logout'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -149,7 +149,9 @@ function Navbar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                  <Link to={setting === '/Profile' ? '/Profile' : '/'}>
+                    <Typography textAlign="center">{setting === '/Profile' ? 'Profile' : setting}</Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
