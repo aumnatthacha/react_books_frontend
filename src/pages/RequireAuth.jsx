@@ -1,20 +1,18 @@
 /* eslint-disable react/prop-types */
 import { useLocation, Navigate, Outlet } from "react-router-dom";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../pages/hooks/useAuth";
 
 const RequireAuth = ({ allowedRoles }) => {
     const { auth } = useAuth();
     const location = useLocation();
 
-    if (!auth.user) {
-        return <Navigate to="/login" state={{ from: location }} replace />;
-    }
-
-    if (!auth.roles.some(role => allowedRoles.includes(role))) {
-        return <Navigate to="/unauthorized" state={{ from: location }} replace />;
-    }
-
-    return <Outlet />;
+    return (
+        auth?.roles?.find(role => allowedRoles?.includes(role))
+            ? <Outlet />
+            : auth?.user
+                ? <Navigate to="/unauthorized" state={{ from: location }} replace />
+                : <Navigate to="/login" state={{ from: location }} replace />
+    );
 }
 
 export default RequireAuth;
