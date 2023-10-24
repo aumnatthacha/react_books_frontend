@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -16,6 +16,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['Add', 'Login'];
 const settings = ['/Profile', 'Logout'];
+const userRole = 'admin'; // แทนค่านี้ด้วยบทบาทของผู้ใช้จริง
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -98,7 +99,7 @@ function Navbar() {
           <Typography
             variant="h5"
             noWrap
-            component={Link} to="" /* ใช้ Link ไปหน้า Home */
+            component={Link} to="/" /* ใช้ Link ไปหน้า Home */
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -117,7 +118,7 @@ function Navbar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                component={Link} to={page === 'Add' ? '/Add' : page === 'Login' ? '/Login' : '/'} // เชื่อมลิงก์ไปยังหน้าที่ต้องการ
+                component={Link} to={userRole === 'admin' && page === 'Add' ? '/Add' : page === 'Login' ? '/Login' : '/'}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}

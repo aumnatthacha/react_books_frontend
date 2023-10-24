@@ -34,6 +34,10 @@ const Home = () => {
     return result;
   }, []);
 
+  const handleCancel = () => {
+    navigate('/')
+  };
+
   return (
     <div>
       {groupedBooks.map((group, groupIndex) => (
@@ -78,7 +82,7 @@ const Home = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Button onClick={() => navigate('../update/' + book.id)}>
+                <Button onClick={() => navigate('/update/' + book.id)}>
                   <i className="bi bi-arrow-repeat"></i> แก้ไข
                 </Button>
                 <Button onClick={() => handleDelete(book.id)}>
