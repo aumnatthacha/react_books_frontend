@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useRef, useState } from 'react'; // ลบ useEffect ออก
 import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons"; // ลบ faInfoCircle ออก
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from '../api/axios';
+import axios from '../../api/axios';
 import { Link } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';

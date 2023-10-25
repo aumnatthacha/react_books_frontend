@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react';
 import { useEffect, useRef, useState } from 'react';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import axios from '../api/axios';
+import axios from '../../api/axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
