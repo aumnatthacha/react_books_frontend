@@ -9,9 +9,8 @@ import Update from './pages/Update';
 import Admin from './pages/Admin';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup/Signup'
-import Test from './pages/test';
-import Unauthorized from './pages/Unauthorized';
 import RequireAuth from './pages/RequireAuth'
+import Unauthorized from './pages/Unauthorized';
 
 function App() {
   return (
@@ -26,7 +25,6 @@ function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/test" element={<Test />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route path="/requireAuth" element={<RequireAuth />} />
 

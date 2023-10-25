@@ -42,16 +42,16 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
 
-  const usernameRef = useRef(); // เปลี่ยนชื่อตัวแปร email เป็น username
+  const usernameRef = useRef(); 
   const passwordRef = useRef();
   const errRef = useRef();
 
-  const [username, setUsername] = useState(''); // เปลี่ยนชื่อตัวแปร email เป็น username
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
-    usernameRef.current.focus(); // เปลี่ยนชื่อตัวแปร emailRef เป็น usernameRef
+    usernameRef.current.focus(); 
   }, []);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ const Login = () => {
     try {
       const response = await axios.post(
         LOGIN_URL,
-        JSON.stringify({ username, password }), // เปลี่ยนชื่อตัวแปร email เป็น username
+        JSON.stringify({ username, password }), 
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
@@ -73,15 +73,15 @@ const Login = () => {
 
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
-      setAuth({ username, password, roles, accessToken }); // เปลี่ยนชื่อตัวแปร email เป็น username
-      setUsername(''); // เปลี่ยนชื่อตัวแปร email เป็น username
+      setAuth({ username, password, roles, accessToken }); 
+      setUsername(''); 
       setPassword('');
       navigate(from, { replace: true });
     } catch (err) {
       if (!err.response) {
-        setErrMsg(err.message); // ใช้ err.message แทน
+        setErrMsg(err.message);
       } else if (err.response.status === 400) {
-        setErrMsg('Missing Username or Password'); // เปลี่ยน Missing Email เป็น Missing Username
+        setErrMsg('Missing Username or Password'); 
       } else if (err.response.status === 401) {
         setErrMsg('Unauthorized');
       } else {

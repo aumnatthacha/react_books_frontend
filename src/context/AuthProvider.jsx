@@ -1,5 +1,6 @@
-import { createContext, useState } from "react";
-import PropTypes from 'prop-types'; // เพิ่ม import สำหรับ PropTypes
+/* eslint-disable no-unused-vars */
+import React, { createContext, useState } from "react";
+import PropTypes from 'prop-types'; // นำเข้า PropTypes
 
 const AuthContext = createContext({});
 
@@ -10,7 +11,7 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{ auth, setAuth }}>
             {children}
         </AuthContext.Provider>
-    )
+    );
 }
 
 AuthProvider.propTypes = {
