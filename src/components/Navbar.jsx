@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,7 +14,6 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
-
 const pages = ['Add', 'Login'];
 const settings = ['/Profile', '/Logout'];
 const userRole = 'admin'; // แทนค่านี้ด้วยบทบาทของผู้ใช้จริง
@@ -22,10 +21,12 @@ const userRole = 'admin'; // แทนค่านี้ด้วยบทบา
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const history = useHistory();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
+
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -37,11 +38,15 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
   const handleLogout = () => {
-    history.push('/login');
-    // ทำการลอกเอาท์ผู้ใช้ออกจากระบบ
+    // ทำการลอกเอาท์ผู้ใช้ออกจากระบบและเปลี่ยนเส้นทางไปยังหน้า "/login"
     // เช่น เคลียร์ข้อมูลการเข้าสู่ระบบ, ล้างคุกกี้, ล้างค่าแปล, เปลี่ยนเส้นทางหรือทำการออกจากระบบที่เซิร์ฟเวอร์
-  }
+    history.push('/login');
+  };
+
+  // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
+  const isLoggedIn = userRole === 'admin';
 
   return (
     <AppBar position="static">
@@ -155,10 +160,11 @@ function Navbar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  {setting === '/Logout' ? (
+                // ตรวจสอบการเข้าสู่ระบบก่อนที่จะแสดงลิง์ "Profile" และ "Logout"
+                isLoggedIn ? (
+                  setting === '/Logout' ? (
                     <div onClick={handleLogout}>
-                      <Link to="/Logout" style={{ textDecoration: 'none' }}>
+                      <Link to="/Login" style={{ textDecoration: 'none' }}>
                         <Typography textAlign="center">Logout</Typography>
                       </Link>
                     </div>
@@ -166,9 +172,8 @@ function Navbar() {
                     <Link to={setting} style={{ textDecoration: 'none' }}>
                       <Typography textAlign="center">{setting === '/Profile' ? 'Profile' : setting}</Typography>
                     </Link>
-                  )}
-
-                </MenuItem>
+                  )
+                ) : null
               ))}
             </Menu>
           </Box>

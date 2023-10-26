@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import Add from './pages/Add';
 import Login from './pages/Login/Login';
 import Update from './pages/Update';
-import Admin from './pages/Admin';
+import AdminRoute from './pages/AdminRoute';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup/Signup'
 import RequireAuth from './pages/RequireAuth'
@@ -19,10 +19,9 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/add" element={<Add />} />
+          <Route path="/add" element={<AdminRoute><Add /></AdminRoute>} />
           <Route path="/login" element={<Login />} />
-          <Route path="/update/:id" element={<Update />} />
-          <Route path="/admin" element={<Admin />} />
+          <Route path="/update/:id" element={<AdminRoute><Add /></AdminRoute>} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
