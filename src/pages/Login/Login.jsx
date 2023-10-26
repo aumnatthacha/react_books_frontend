@@ -63,7 +63,7 @@ const Login = () => {
 
     // Check if username and password are not empty
     if (!username || !password) {
-      setErrMsg('Missing Username or Password');
+      setErrMsg('Missing Username or Password!!');
       return;
     }
 
@@ -94,6 +94,7 @@ const Login = () => {
       errRef.current.focus();
     }
   };
+
 
 
   return (
@@ -127,6 +128,7 @@ const Login = () => {
               inputRef={usernameRef}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              
             />
             <TextField
               margin="normal"
@@ -146,11 +148,28 @@ const Login = () => {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{mt: 3,
+                mb: 2,
+                bgcolor: 'black',      
+                color: 'white',       
+                '&:hover': {
+                  bgcolor: 'white',    
+                  color: 'black',      
+                },
+                '&:active': {
+                  bgcolor: 'white',    
+                  color: 'black',     
+                },
+              }}
             >
               Sign In
             </Button>
-            {errMsg && <div className="error-message">{errMsg}</div>}
+
+            {errMsg && (
+              <div className="error-message" style={{ color: 'red', textAlign: 'center' }}>
+                Missing Username or Password !!
+              </div>
+            )}
             <Grid container>
               <Grid item>
                 <Link to="/signup" variant="body2">

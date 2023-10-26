@@ -120,7 +120,20 @@ export default function UserRegistration() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{
+                mt: 3,
+                mb: 2,
+                bgcolor: 'black',
+                color: 'white',
+                '&:hover': {
+                  bgcolor: 'white',
+                  color: 'black',
+                },
+                '&:active': {
+                  bgcolor: 'white',
+                  color: 'black',
+                },
+              }}
             >
               Sign Up
             </Button>

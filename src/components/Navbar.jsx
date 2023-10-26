@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -11,6 +11,8 @@ import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from '@mui/icons-material/Search';
 
 const pages = ['Add', 'Login'];
 const userRole = 'admin'; // แทนค่านี้ด้วยบทบาทของผู้ใช้จริง
@@ -48,12 +50,19 @@ function Navbar() {
     }
   };
 
+  // สถานะสำหรับการค้นหา
+  const [search, setSearch] = useState('');
+
+  // ฟังก์ชันสำหรับการค้นหา
+  const handleSearch = () => {
+    console.log('Searching for:', search);
+  };
 
   // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
   const isLoggedIn = userRole === 'admin';
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ backgroundColor: 'DimGrey' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
@@ -61,12 +70,45 @@ function Navbar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                component={Link} to={userRole === 'admin' && page === 'Add' ? '/Add' : page === 'Login' ? '/Login' : '/'}
-                sx={{ mx: 2, my: 2, color: 'white', display: 'block' }}
+                component={Link}
+                to={userRole === 'admin' && page === 'Add' ? '/Add' : page === 'Login' ? '/Login' : '/'}
+                sx={{ mx: 2, my: 2, color: 'white', display: 'block', backgroundColor: 'DimGrey' }}
               >
                 {page}
               </Button>
+
             ))}
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              ml: 'auto',
+              backgroundColor: 'LightGray',
+              borderRadius: 2,
+              padding: '2px 6px',
+            }}
+          >
+            <SearchIcon sx={{ color: 'white' }} />
+            <InputBase
+              placeholder="Search..."
+              sx={{
+                ml: 1,
+                flex: 1,
+                p: 0.75,
+                color: 'black',
+                '&::placeholder': {
+                  color: 'white',
+                },
+              }}
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  handleSearch();
+                }
+              }}
+            />
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
@@ -86,4 +128,5 @@ function Navbar() {
     </AppBar>
   );
 }
+
 export default Navbar;
