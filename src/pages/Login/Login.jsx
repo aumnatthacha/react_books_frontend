@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const LOGIN_URL = 'your_login_url_here'; 
+const LOGIN_URL = 'your_login_url_here';
 
 // eslint-disable-next-line react-refresh/only-export-components
 function Copyright(props) {
@@ -42,7 +42,7 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
 
-  const usernameRef = useRef(); 
+  const usernameRef = useRef();
   const passwordRef = useRef();
   const errRef = useRef();
 
@@ -51,7 +51,7 @@ const Login = () => {
   const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
-    usernameRef.current.focus(); 
+    usernameRef.current.focus();
   }, []);
 
   useEffect(() => {
@@ -61,10 +61,16 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if username and password are not empty
+    if (!username || !password) {
+      setErrMsg('Missing Username or Password');
+      return;
+    }
+
     try {
       const response = await axios.post(
         LOGIN_URL,
-        JSON.stringify({ username, password }), 
+        JSON.stringify({ username, password }),
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
@@ -73,15 +79,13 @@ const Login = () => {
 
       const accessToken = response?.data?.accessToken;
       const roles = response?.data?.roles;
-      setAuth({ username, password, roles, accessToken }); 
-      setUsername(''); 
+      setAuth({ username, password, roles, accessToken });
+      setUsername('');
       setPassword('');
       navigate(from, { replace: true });
     } catch (err) {
       if (!err.response) {
         setErrMsg(err.message);
-      } else if (err.response.status === 400) {
-        setErrMsg('Missing Username or Password'); 
       } else if (err.response.status === 401) {
         setErrMsg('Unauthorized');
       } else {
@@ -90,6 +94,7 @@ const Login = () => {
       errRef.current.focus();
     }
   };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -114,14 +119,14 @@ const Login = () => {
               margin="normal"
               required
               fullWidth
-              id="username" 
-              label="Username" 
-              name="username" 
-              autoComplete="username" 
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
               autoFocus
-              inputRef={usernameRef} 
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} 
+              inputRef={usernameRef}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -136,7 +141,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-           
+
             <Button
               type="submit"
               fullWidth
@@ -145,6 +150,7 @@ const Login = () => {
             >
               Sign In
             </Button>
+            {errMsg && <div className="error-message">{errMsg}</div>}
             <Grid container>
               <Grid item>
                 <Link to="/signup" variant="body2">

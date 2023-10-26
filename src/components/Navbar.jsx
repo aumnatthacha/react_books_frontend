@@ -16,7 +16,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 
 
 const pages = ['Add', 'Login'];
-const settings = ['/Profile', 'Logout'];
+const settings = ['/Profile', '/Logout'];
 const userRole = 'admin'; // แทนค่านี้ด้วยบทบาทของผู้ใช้จริง
 
 function Navbar() {
@@ -37,6 +37,11 @@ function Navbar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  const handleLogout = () => {
+    history.push('/login');
+    // ทำการลอกเอาท์ผู้ใช้ออกจากระบบ
+    // เช่น เคลียร์ข้อมูลการเข้าสู่ระบบ, ล้างคุกกี้, ล้างค่าแปล, เปลี่ยนเส้นทางหรือทำการออกจากระบบที่เซิร์ฟเวอร์
+  }
 
   return (
     <AppBar position="static">
@@ -151,9 +156,18 @@ function Navbar() {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Link to={setting === '/Profile' ? '/Profile' : '/'}>
-                    <Typography textAlign="center">{setting === '/Profile' ? 'Profile' : setting}</Typography>
-                  </Link>
+                  {setting === '/Logout' ? (
+                    <div onClick={handleLogout}>
+                      <Link to="/Logout" style={{ textDecoration: 'none' }}>
+                        <Typography textAlign="center">Logout</Typography>
+                      </Link>
+                    </div>
+                  ) : (
+                    <Link to={setting} style={{ textDecoration: 'none' }}>
+                      <Typography textAlign="center">{setting === '/Profile' ? 'Profile' : setting}</Typography>
+                    </Link>
+                  )}
+
                 </MenuItem>
               ))}
             </Menu>
