@@ -11,6 +11,8 @@ import { useNavigate } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+
+
 const Home = () => {
   const [books, setBooks] = useState(booksData);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -31,71 +33,95 @@ const Home = () => {
     setBooks([...books]);
   };
 
+  const groupSize = 5; // จำนวนรายการในแต่ละกลุ่ม
+
+  const groupedBooks = books.reduce((result, item, index) => {
+    const groupIndex = Math.floor(index / groupSize);
+    if (!result[groupIndex]) {
+      result[groupIndex] = [];
+    }
+    result[groupIndex].push(item);
+    return result;
+  }, []);
+
   const handleCancel = () => {
-    navigate('/');
+    navigate('/')
   };
 
   return (
     <div>
-      {books.map((book) => (
-        <Card
-          key={book.id}
-          sx={{
-            maxWidth: 167,
-            width: '23%',
-            marginBottom: '4rem', // ระยะห่างระหว่างรายการ
-            marginLeft: '1.5rem', // ระยะห่างด้านซ้าย
-            marginRight: '1.5rem', // ระยะห่างด้านขวา
-            borderRadius: '1px',
+      {groupedBooks.map((group, groupIndex) => (
+        <div
+          key={groupIndex}
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center', // จัดให้อยู่ตรงกลาง
+            marginTop: '6rem', // ระยะห่างด้านบน
           }}
-          className="books-card"
         >
-          <CardMedia
-            component="img"
-            style={{
-              maxWidth: '167px',
-              maxHeight: '250px',
-            }}
-            alt={book.name}
-            image={book.imageURL}
-            sx={{ objectFit: 'cover' }}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {book.name}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {book.type}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            {!isAdmin && (
-              <Button onClick={() => navigate('/update/' + book.id)}>
-                <i className="bi bi-arrow-repeat"></i> แก้ไข
-              </Button>
-            )}
-            {!isAdmin && (
-              <Button onClick={() => handleDelete(book.id)}>
-                <i className="bi bi-trash"></i> ลบ
-              </Button>
-            )}
-            <Button
-              onClick={() => handleExpandClick(book)}
-              aria-expanded={book.expanded}
+          {group.map((book) => (
+            <Card
+              key={book.id}
+              sx={{
+                maxWidth: 167,
+                width: '23%',
+                marginBottom: '4rem', // ระยะห่างระหว่างรายการ
+                marginLeft: '1.5rem', // ระยะห่างด้านซ้าย
+                marginRight: '1.5rem', // ระยะห่างด้านขวา
+                borderRadius: '1px',
+              }}
+              className="books-card"
             >
-              {book.expanded ? 'ยุบ' : 'แสดงรายละเอียด'}
-              <ExpandMoreIcon />
-            </Button>
-          </CardActions>
-          <Collapse in={book.expanded}>
-            <CardContent>
-              <Typography paragraph>ข้อมูลเพิ่มเติมเกี่ยวกับหนังสือ:</Typography>
-              <Typography>
-                ที่นี่คุณสามารถเพิ่มข้อมูลเพิ่มเติมเกี่ยวกับหนังสือของคุณ หากคุณมีข้อมูลเพิ่มเติมที่คุณต้องการแสดงให้ผู้ใช้เห็น.
-              </Typography>
-            </CardContent>
-          </Collapse>
-        </Card>
+              <CardMedia
+                component="img"
+                style={{
+                  maxWidth: '167px',
+                  maxHeight: '250px',
+                }}
+                alt={book.name}
+                image={book.imageURL}
+                sx={{ objectFit: 'cover' }}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {book.name}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {book.type}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                {!isAdmin && (
+                  <Button onClick={() => navigate('/update/' + book.id)}>
+                    <i className="bi bi-arrow-repeat"></i> แก้ไข
+                  </Button>
+                )}
+                {!isAdmin && (
+                  <Button onClick={() => handleDelete(book.id)}>
+                    <i className="bi bi-trash"></i> ลบ
+                  </Button>
+                )}
+                <Button
+                  onClick={() => handleExpandClick(book)}
+                  aria-expanded={book.expanded}
+                >
+                  {book.expanded ? 'ยุบ' : 'แสดงรายละเอียด'}
+                  <ExpandMoreIcon />
+                </Button>
+              </CardActions>
+              <Collapse in={book.expanded}>
+                <CardContent>
+                  <Typography paragraph>ข้อมูลเพิ่มเติมเกี่ยวกับหนังสือ:</Typography>
+                  <Typography>
+                    ที่นี่คุณสามารถเพิ่มข้อมูลเพิ่มเติมเกี่ยวกับหนังสือของคุณ หากคุณมีข้อมูลเพิ่มเติมที่คุณต้องการแสดงให้ผู้ใช้เห็น.
+                  </Typography>
+                </CardContent>
+              </Collapse>
+            </Card>
+
+          ))}
+        </div>
       ))}
     </div>
   );
