@@ -96,12 +96,12 @@ const Home = () => {
                 </Typography>
               </CardContent>
               <CardActions>
-                {isAdmin && (
+                {!isAdmin && (
                   <Button onClick={() => navigate('/update/' + book.id)}>
                     <i className="bi bi-arrow-repeat"></i> แก้ไข
                   </Button>
                 )}
-                {isAdmin && (
+                {!isAdmin && (
                   <Button onClick={() => handleDelete(book.id)}>
                     <i className="bi bi-trash"></i> ลบ
                   </Button>

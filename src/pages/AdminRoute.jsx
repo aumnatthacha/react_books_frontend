@@ -7,7 +7,7 @@ const AdminRoute = () => {
 
   if (userRole === 'admin') {
     return (
-      <section>
+      <section style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
         <h1>Admins Page</h1>
         <br />
         <p>You must have been assigned an Admin role.</p>
@@ -18,7 +18,7 @@ const AdminRoute = () => {
     );
   } else {
     return (
-      <section>
+      <section style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
         <h1>Unauthorized</h1>
         <p>You are not authorized to access this page.</p>
       </section>
