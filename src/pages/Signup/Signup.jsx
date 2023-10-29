@@ -1,9 +1,8 @@
 /* eslint-disable react/no-unknown-property */
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import * as React from 'react';
-import { useRef, useState } from 'react'; // ลบ useEffect ออก
-import { faCheck, faTimes } from "@fortawesome/free-solid-svg-icons"; // ลบ faInfoCircle ออก
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from 'react';
 import axios from '../../api/axios';
 import { Link } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
@@ -24,27 +23,30 @@ const REGISTER_URL = '/Signup';
 const defaultTheme = createTheme();
 
 export default function UserRegistration() {
-  const [user, setUser] = useState('');
+  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [profileUrl, setProfileUrl] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Check if the input data is valid
-    if (!USER_REGEX.test(user) || !PWD_REGEX.test(password) || password !== confirmPassword) {
+    if (!USER_REGEX.test(username) || !PWD_REGEX.test(password) || password !== confirmPassword) {
       setError('Invalid Entry');
       return;
     }
 
     try {
-      const response = await axios.post(REGISTER_URL, { user, password });
+      const response = await axios.post(REGISTER_URL, { username, password, email, profileUrl });
       console.log(response.data);
       // Clear the form
-      setUser('');
+      setUsername('');
       setPassword('');
-      setConfirmPassword('');
-      setError(''); // Clear any previous errors
+      setEmail('');
+      setProfileUrl('');
+      setError('');
     } catch (err) {
       if (!err.response) {
         setError('No Server Response');
@@ -71,6 +73,9 @@ export default function UserRegistration() {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
+          {profileUrl && (
+            <img src={profileUrl} alt="Profile Image" style={{ width: '100px', height: '100px' }} />
+          )}
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
@@ -80,12 +85,37 @@ export default function UserRegistration() {
                 <TextField
                   required
                   fullWidth
+                  id="profileUrl"
+                  label="Profile URL"
+                  name="profileUrl"
+                  autoComplete="url"
+                  value={profileUrl}
+                  onChange={(e) => setProfileUrl(e.target.value)}
+                />
+              </Grid>
+
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  name="name"
+                  autoComplete="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
                   id="username"
                   label="Username"
                   name="username"
                   autoComplete="username"
-                  value={user}
-                  onChange={(e) => setUser(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
               </Grid>
 
@@ -106,13 +136,13 @@ export default function UserRegistration() {
                 <TextField
                   required
                   fullWidth
-                  name="confirmPassword"
-                  label="Confirm Password"
-                  type="password"
-                  id="confirmPassword"
-                  autoComplete="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  name="email"
+                  label="Email"
+                  type="email"
+                  id="email"
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Grid>
             </Grid>
