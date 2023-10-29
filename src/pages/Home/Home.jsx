@@ -33,7 +33,7 @@ const Home = () => {
     setBooks([...books]);
   };
 
-  const groupSize = 5;
+  const groupSize = 4;
 
   const groupedBooks = books.reduce((result, item, index) => {
     const groupIndex = Math.floor(index / groupSize);
@@ -56,29 +56,32 @@ const Home = () => {
           style={{
             display: 'flex',
             flexWrap: 'wrap',
+            alignItems: 'center',
             justifyContent: 'center',
-            marginTop: '2rem', 
-            marginLeft: '2rem', 
-            marginRight: '2rem',
+
           }}
         >
+
           {group.map((book) => (
             <Card
               key={book.id}
               sx={{
-                maxWidth: 250, // Increased the card width
-                width: '30%', // Adjusted card width
-                marginBottom: '2rem', // Reduced the margin between cards
-                borderRadius: '8px', // Added a rounded border
-                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Added a subtle shadow
+                maxWidth: 250,
+                width: '30%',
+                marginTop: '8rem',
+                borderRadius: '8px',
+                marginLeft: '1rem',
+                marginRight: '1rem',
               }}
               className="books-card"
             >
+
+
               <CardMedia
                 component="img"
                 style={{
                   maxWidth: '100%',
-                  maxHeight: 250, // Set a maximum height for the image
+                  maxHeight: 250,
                 }}
                 alt={book.name}
                 image={book.imageURL}

@@ -1,0 +1,80 @@
+@import 'bootstrap/dist/css/bootstrap.css';
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 350px;
+  }
+  
+  h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+  }
+  
+  .profile-url img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50%;
+    margin: 10px auto;
+    display: block;
+  }
+  
+  .user-details {
+    text-align: left;
+  }
+  
+  .user-details div {
+    margin: 10px 0;
+  }
+  
+  .name,.username, .password, .email {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .name strong, .username strong, .password strong, .email strong {
+    flex: 1;
+    display: block;
+  }
+  
+  .actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .actions button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .actions__edit {
+    background-color: #2196F3;
+    color: #fff;
+  }
+  
+  .actions__save {
+    background-color: #4CAF50;
+    color: #fff;
+  }
+  
+  .actions__cancel {
+    background-color: #f44336;
+    color: #fff;
+  }
+  
