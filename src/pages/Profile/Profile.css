@@ -35,7 +35,7 @@ body {
     padding: 1rem;
     background-color: #ffffff; 
     border-radius: 8px;
-    box-shadow: 0 10px 20px rgba(229, 15, 15, 0.2);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
