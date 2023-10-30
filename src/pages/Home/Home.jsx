@@ -111,7 +111,7 @@ const Home = () => {
                   onClick={() => handleExpandClick(book)}
                   aria-expanded={book.expanded}
                 >
-                  {book.expanded ? 'ยุบ' : 'แสดงรายละเอียด'}
+                  {book.expanded ? '' : 'แสดงรายละเอียด'}
                   <ExpandMoreIcon />
                 </Button>
               </CardActions>
