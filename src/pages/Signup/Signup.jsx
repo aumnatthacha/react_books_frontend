@@ -16,9 +16,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-const USER_REGEX = /^[A-Za-z][A-Za-z0-9-_]{3,23}$/;
-const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%]).{8,24}$/;
-const REGISTER_URL = '/Signup';
+
+const REGISTER_URL = '/auth/register';
 
 const defaultTheme = createTheme();
 
@@ -31,17 +30,13 @@ export default function UserRegistration() {
   const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    // Check if the input data is valid
-    if (!USER_REGEX.test(username) || !PWD_REGEX.test(password) || password !== confirmPassword) {
-      setError('Invalid Entry');
-      return;
-    }
-
+    
     try {
-      const response = await axios.post(REGISTER_URL, { username, password, email, profileUrl });
+      const response = await axios.post(REGISTER_URL, { name, username, password, email, profileUrl, isAlive: true });
       console.log(response.data);
       // Clear the form
+      setName('');
+      setPassword('');
       setUsername('');
       setPassword('');
       setEmail('');

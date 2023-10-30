@@ -2,7 +2,9 @@
 import React, { createContext, useState } from "react";
 import PropTypes from 'prop-types'; // นำเข้า PropTypes
 
-const AuthContext = createContext({});
+const AuthContext = createContext({
+    
+});
 
 export const AuthProvider = ({ children }) => {
     const [auth, setAuth] = useState({});

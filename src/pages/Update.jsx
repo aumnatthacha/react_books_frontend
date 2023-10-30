@@ -9,7 +9,6 @@ import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { booksData } from './booksData';
 import { Navigate, useNavigate } from 'react-router-dom';
 
 
@@ -18,7 +17,7 @@ const defaultTheme = createTheme();
 
 export default function Update() {
 
-    const [books, setBooks] = React.useState(booksData[0]);
+    const [books, setBooks] = React.useState([0]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;

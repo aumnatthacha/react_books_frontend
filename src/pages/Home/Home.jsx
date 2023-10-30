@@ -1,6 +1,8 @@
-/* eslint-disable no-undef */
-/* eslint-disable react/no-unknown-property */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
+// /* eslint-disable no-undef */
+// /* eslint-disable react/no-unknown-property */
+// /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -12,10 +14,12 @@ import { booksData } from '../booksData';
 import { useNavigate } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 
 
 const Home = () => {
   const [books, setBooks] = useState(booksData);
+  const axiosPrivate = useAxiosPrivate();
   const [selectedBook, setSelectedBook] = useState(null);
   const navigate = useNavigate();
   const isAdmin = true; // Set this value as needed
@@ -23,6 +27,15 @@ const Home = () => {
   const handleEdit = (book) => {
     setSelectedBook(book);
   };
+
+  useEffect(() => {
+    (async () => {
+      const res = await axiosPrivate.get('/books')
+      console.log(res.data);
+    })()
+  }, [])
+
+
 
   const handleDelete = (id) => {
     const updatedBooks = books.filter((book) => book.id !== id);
@@ -134,3 +147,6 @@ const Home = () => {
 };
 
 export default Home;
+
+
+

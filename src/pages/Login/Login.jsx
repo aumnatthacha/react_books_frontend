@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from '../../api/axios';
@@ -8,16 +8,15 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { jwtDecode } from "jwt-decode";
 
-const LOGIN_URL = 'your_login_url_here';
+const LOGIN_URL = '/auth/login';
 
 // eslint-disable-next-line react-refresh/only-export-components
 function Copyright(props) {
@@ -27,7 +26,7 @@ function Copyright(props) {
       <Link color="inherit" href="https://mui.com/">
         Your Website
       </Link>{' '}
-      {new Date().getFullYear()}
+      {new Date().getFullYear()}/
       {'.'}
     </Typography>
   );
@@ -42,31 +41,16 @@ const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
 
-  const usernameRef = useRef();
-  const passwordRef = useRef();
-  const errRef = useRef();
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
-
-  useEffect(() => {
-    usernameRef.current.focus();
-  }, []);
 
   useEffect(() => {
     setErrMsg('');
   }, [username, password]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Check if username and password are not empty
-    if (!username || !password) {
-      setErrMsg('Missing Username or Password!!');
-      return;
-    }
-
+    console.log(username, password);
     try {
       const response = await axios.post(
         LOGIN_URL,
@@ -75,15 +59,20 @@ const Login = () => {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true,
         }
-      );
-
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
-      setAuth({ username, password, roles, accessToken });
+      )
+      console.log(response.data);
+      const accessToken = response?.data?.access_token;
+      const decodeData = jwtDecode(accessToken)
+      console.log(decodeData);
+      // const roles = response?.data?.roles;
+      setAuth({ info: decodeData, accessToken, username });
       setUsername('');
       setPassword('');
-      navigate(from, { replace: true });
+
+      // ลอกอินสำเร็จ นำผู้ใช้ไปยังหน้า "home"
+      navigate('/');
     } catch (err) {
+      console.log(err);
       if (!err.response) {
         setErrMsg(err.message);
       } else if (err.response.status === 401) {
@@ -91,10 +80,8 @@ const Login = () => {
       } else {
         setErrMsg('Login Failed');
       }
-      errRef.current.focus();
     }
   };
-
 
 
   return (
@@ -124,11 +111,9 @@ const Login = () => {
               label="Username"
               name="username"
               autoComplete="username"
-              autoFocus
-              inputRef={usernameRef}
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              
+
             />
             <TextField
               margin="normal"
@@ -139,26 +124,28 @@ const Login = () => {
               type="password"
               id="password"
               autoComplete="current-password"
-              inputRef={passwordRef}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
 
             <Button
-              type="submit"
+              onClick={() => {
+                handleSubmit()
+              }}
               fullWidth
               variant="contained"
-              sx={{mt: 3,
+              sx={{
+                mt: 3,
                 mb: 2,
-                bgcolor: 'black',      
-                color: 'white',       
+                bgcolor: 'black',
+                color: 'white',
                 '&:hover': {
-                  bgcolor: 'white',    
-                  color: 'black',      
+                  bgcolor: 'white',
+                  color: 'black',
                 },
                 '&:active': {
-                  bgcolor: 'white',    
-                  color: 'black',     
+                  bgcolor: 'white',
+                  color: 'black',
                 },
               }}
             >
