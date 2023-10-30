@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
+
 const Home = () => {
   const [books, setBooks] = useState(booksData);
   const [selectedBook, setSelectedBook] = useState(null);
@@ -98,12 +99,12 @@ const Home = () => {
               <CardActions>
                 {!isAdmin && (
                   <Button onClick={() => navigate('/update/' + book.id)}>
-                    <i className="bi bi-arrow-repeat"></i> แก้ไข
+                    <i className="bi bi-arrow-repeat NotoSansThai-Regular"></i> แก้ไข
                   </Button>
                 )}
                 {!isAdmin && (
                   <Button onClick={() => handleDelete(book.id)}>
-                    <i className="bi bi-trash"></i> ลบ
+                    <i className="bi bi-trash NotoSansThai-Regular"></i> ลบ
                   </Button>
                 )}
 
