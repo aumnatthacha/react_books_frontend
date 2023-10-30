@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
- /* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import '../Profile/css/profile.css';
 
@@ -85,6 +85,18 @@ export default function Profile() {
               email
             )}
           </div>
+          <div className="profileUrl">
+            <strong>Profile:</strong> {isEditing || isAdmin ? (
+              <input
+                type="text"
+                value={profileUrl}
+                onChange={(e) => setProfileUrl(e.target.value)} 
+              />
+            ) : (
+              profileUrl
+            )}
+          </div>
+
         </div>
         <div className="actions">
           <div className="actions">

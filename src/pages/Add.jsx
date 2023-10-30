@@ -20,6 +20,10 @@ export default function Add() {
         name: '',
         description: '',
         img: '',
+        author:'',
+        price:'',
+        ISBN:'',
+
     });
 
     const handleInputChange = (event) => {
@@ -64,23 +68,58 @@ export default function Add() {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="name"
-                                    label="ชื่อหนังสือ"
-                                    name="name"
-                                    autoComplete="name"
+                                    id="author"
+                                    label="ผู้แต่ง"
+                                    name="author"
+                                    autoComplete="author"
                                     autoFocus
-                                    value={book.name}
+                                    value={book.author}
                                     onChange={handleInputChange}
                                 />
                                 <TextField
                                     margin="normal"
                                     required
                                     fullWidth
-                                    name="type"
+                                    id="ISBN"
+                                    label="รหัสหนังสือ"
+                                    name="ISBN"
+                                    autoComplete="ISBN"
+                                    autoFocus
+                                    value={book.ISBN}
+                                    onChange={handleInputChange}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="name"
+                                    label="ชื่อหนังสือ"
+                                    name="name"
+                                    autoComplete="name"
+                                    autoFocus
+                                    value={book.title}
+                                    onChange={handleInputChange}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="description"
                                     label="ประเภท"
-                                    type="text"
-                                    autoComplete="type"
-                                    value={book.type}
+                                    type="description"
+                                    autoComplete="description"
+                                    value={book.description}
+                                    onChange={handleInputChange}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="price"
+                                    label="ราคา"
+                                    type="price"
+                                    autoComplete="price"
+                                    value={book.price}
                                     onChange={handleInputChange}
                                 />
                                 <TextField
