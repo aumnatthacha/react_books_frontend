@@ -63,7 +63,7 @@ const Login = () => {
       console.log(response.data);
       const accessToken = response?.data?.access_token;
       const decodeData = jwtDecode(accessToken)
-      console.log(decodeData);
+      // console.log(decodeData);
       // const roles = response?.data?.roles;
       setAuth({ info: decodeData, accessToken, username });
       setUsername('');

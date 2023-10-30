@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-
+import useAuth from '../../hooks/useAuth'
 
 const Home = () => {
   const [books, setBooks] = useState(booksData);
@@ -23,7 +23,7 @@ const Home = () => {
   const [selectedBook, setSelectedBook] = useState(null);
   const navigate = useNavigate();
   const isAdmin = true; // Set this value as needed
-
+  const { auth } = useAuth();
   const handleEdit = (book) => {
     setSelectedBook(book);
   };
@@ -31,6 +31,7 @@ const Home = () => {
   useEffect(() => {
     (async () => {
       const res = await axiosPrivate.get('/books')
+      console.log(auth);
       console.log(res.data);
     })()
   }, [])
