@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import * as React from 'react';
 import Button from '@mui/material/Button';
@@ -9,117 +10,189 @@ import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-
+const UPDATE_URL = '/books/{id}';
 
 const defaultTheme = createTheme();
+const updateBook = async (bookData) => {
+  try {
+    const response = await fetch(UPDATE_URL, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(bookData),
+    });
+
+    if (response.ok) {
+
+      console.log('อัปเดตหนังสือสำเร็จ');
+      navigate('/');
+    } else {
+
+      console.error('เกิดข้อผิดพลาดในการอัปเดตหนังสือ');
+    }
+  } catch (error) {
+    console.error('เกิดข้อผิดพลาดในการเชื่อมต่อกับ API:', error);
+  }
+};
+
 
 export default function Update() {
+  const { id } = useParams();
+  const [book, setBook] = React.useState({
+    id: id,
+    author: '',
+    ISBN: '',
+    profileUrl: '',
+    title: '',
+    description: '',
+    price: 0,
+  });
 
-    const [books, setBooks] = React.useState([0]);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setBook({
+      ...book,
+      [name]: value,
+    });
+  };
 
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setBooks({
-            ...books,
-            [name]: value,
-        });
-    };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(book);
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log(books);
-        // Add code to update data in the database or perform further actions
-    };
+  };
 
-    const navigate = useNavigate()
-    const handleCancel = () => {
-        navigate('/')
-    };
+  const navigate = useNavigate();
+  const handleCancel = () => {
+    navigate('/');
+  };
 
-    return (
-        <ThemeProvider theme={defaultTheme}>
-            <Container component="main" maxWidth="md">
-                <CssBaseline />
-                <Box
-                    sx={{
-                        marginTop: 10,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
-                    <Typography component="h1" variant="h5">
-                        Update Books
-                    </Typography>
-                    <Card sx={{ display: 'flex', justifyContent: 'center', alignItems: 'stretch' }}>
-                        <img
-                            src={books.imageURL}
-                            alt="รูปภาพ"
-                            style={{ width: '235px', height:'375px' }}
-                        />
-                        <CardContent style={{ flex: 1 }}>
-                            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="name"
-                                    label="ชื่อหนังสือ"
-                                    name="name"
-                                    autoComplete="name"
-                                    autoFocus
-                                    value={books.name}
-                                    onChange={handleInputChange}
-                                />
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="type"
-                                    label="ประเภท"
-                                    type="text"
-                                    autoComplete="type"
-                                    value={books.type}
-                                    onChange={handleInputChange}
-                                />
-                                <TextField
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    name="img"
-                                    label="URL รูปภาพ"
-                                    type="text"
-                                    autoComplete="img"
-                                    value={books.imageURL}
-                                    onChange={handleInputChange}
-                                />
+  const handleUpdate = (id) => {
+    navigate(`/update/${id}`);
+  };
 
-                                <div className="d-grid gap-2">
-                                    <Button
-                                        type="submit"
-                                        fullWidth
-                                        variant="contained"
-                                        sx={{ mt: 3, mb: 2 }}
-                                    >
-                                        อัปเดตหนังสือ
-                                    </Button>
-                                    <Button
-                                        type="button"
-                                        fullWidth
-                                        variant="outlined"
-                                        sx={{ mb: 2 }}
-                                        onClick={handleCancel}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </div>
-                            </Box>
-                        </CardContent>
-                    </Card>
-                </Box>
-            </Container>
-        </ThemeProvider>
-    );
+
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Container component="main" maxWidth="md">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 10,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Update Books
+          </Typography>
+          <Card sx={{ display: 'flex', justifyContent: 'center', alignItems: 'stretch' }}>
+            <img
+              src={book.profileUrl}
+              alt="รูปภาพ"
+              style={{ width: '235px', height: '375px' }}
+            />
+            <CardContent style={{ flex: 1 }}>
+              <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="title"
+                  label="ชื่อหนังสือ"
+                  name="title"
+                  autoComplete="title"
+                  autoFocus
+                  value={book.title}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="author"
+                  label="ผู้เขียน"
+                  type="text"
+                  autoComplete="author"
+                  value={book.author}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="ISBN"
+                  label="ISBN"
+                  type="text"
+                  autoComplete="ISBN"
+                  value={book.ISBN}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="profileUrl"
+                  label="URL รูปภาพ"
+                  type="text"
+                  autoComplete="profileUrl"
+                  value={book.profileUrl}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="description"
+                  label="รายละเอียด"
+                  type="text"
+                  autoComplete="description"
+                  value={book.description}
+                  onChange={handleInputChange}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="price"
+                  label="ราคา"
+                  type="number"
+                  autoComplete="price"
+                  value={book.price}
+                  onChange={handleInputChange}
+                />
+
+                <div className="d-grid gap-2">
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onClick={() => updateBook({ ...book, id })}
+                  >
+                    อัปเดตหนังสือ
+                  </Button>
+
+                  <Button
+                    type="button"
+                    fullWidth
+                    variant="outlined"
+                    sx={{ mb: 2 }}
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </Box>
+            </CardContent>
+          </Card>
+        </Box>
+      </Container>
+    </ThemeProvider>
+  );
 }
