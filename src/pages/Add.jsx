@@ -13,6 +13,8 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 const defaultTheme = createTheme();
+// const ADD_URL = '/books';
+
 
 export default function Add() {
     const navigate = useNavigate()
@@ -20,9 +22,9 @@ export default function Add() {
         name: '',
         description: '',
         img: '',
-        author:'',
-        price:'',
-        ISBN:'',
+        author: '',
+        price: '',
+        ISBN: '',
 
     });
 
@@ -35,8 +37,35 @@ export default function Add() {
     };
 
     const handleAddBook = () => {
-        // 
+        const ADD_URL = '/books';
+        const newBookData = {
+            name: book.name,
+            description: book.description,
+            img: book.img,
+            author: book.author,
+            price: book.price,
+            ISBN: book.ISBN,
+        };
+
+        fetch(ADD_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newBookData),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    alert('เพิ่มหนังสือสำเร็จ');
+                } else {
+                    console.error('เกิดข้อผิดพลาดในการเพิ่มหนังสือ');
+                }
+            })
+            .catch((error) => {
+                console.error('เกิดข้อผิดพลาดในการส่งข้อมูล:', error);
+            });
     };
+
 
     const handleCancel = () => {
         navigate('/')
