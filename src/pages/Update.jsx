@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import * as React from 'react';
@@ -12,6 +13,8 @@ import CardContent from '@mui/material/CardContent';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import useAxiosPrivate from '../hooks/useAxiosPrivate';
 
 const UPDATE_URL = '/books/{id}';
 
@@ -33,6 +36,7 @@ const updateBook = async (bookData) => {
     } else {
 
       console.error('เกิดข้อผิดพลาดในการอัปเดตหนังสือ');
+      setBook(originalBookData);
     }
   } catch (error) {
     console.error('เกิดข้อผิดพลาดในการเชื่อมต่อกับ API:', error);
@@ -40,8 +44,34 @@ const updateBook = async (bookData) => {
 };
 
 
+// export default function Update() {
+//   const axiosPrivate = useAxiosPrivate();
+
+
+//   const { id } = useParams();
+//   useEffect(() => {
+//     (async () => {
+//       try {
+//         const response = await axiosPrivate(`/books/${id}`);
+//         console.log(response.data)
+//         if (response.status === 200) {
+
+//           console.log(response.data)
+
+//         } else {
+//           console.error('เกิดข้อผิดพลาดในการดึงข้อมูลหนังสือ');
+//         }
+//       } catch (error) {
+//         console.error('เกิดข้อผิดพลาดในการดึงข้อมูลหนังสือ:', error);
+//       }
+//     })();
+//   }, []);
+
 export default function Update() {
+  const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
   const { id } = useParams();
+
   const [book, setBook] = React.useState({
     id: id,
     author: '',
@@ -51,6 +81,40 @@ export default function Update() {
     description: '',
     price: 0,
   });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axiosPrivate(`/books/${id}`);
+        if (response.status === 200) {
+          const bookData = response.data;
+          setBook({
+            id: bookData.id,
+            author: bookData.author,
+            ISBN: bookData.ISBN,
+            profileUrl: bookData.profileUrl,
+            title: bookData.title,
+            description: bookData.description,
+            price: bookData.price,
+          });
+        } else {
+          console.error('เกิดข้อผิดพลาดในการดึงข้อมูลหนังสือ');
+        }
+      } catch (error) {
+        console.error('เกิดข้อผิดพลาดในการดึงข้อมูลหนังสือ:', error);
+      }
+    })();
+  }, [id]);
+
+  // const [book, setBook] = React.useState({
+  //   id: id,
+  //   author: '',
+  //   ISBN: '',
+  //   profileUrl: '',
+  //   title: '',
+  //   description: '',
+  //   price: 0,
+  // });
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -66,7 +130,7 @@ export default function Update() {
 
   };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const handleCancel = () => {
     navigate('/');
   };

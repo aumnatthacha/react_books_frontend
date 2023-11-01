@@ -26,6 +26,7 @@ const Home = () => {
         const response = await axiosPrivate.get('/books');
         if (response.status === 200) {
           setBooks(response.data);
+          console.log(response.data)
           setOriginalBooks(response.data); // Store the original data
         } else {
           console.error('เกิดข้อผิดพลาดในการดึงข้อมูลหนังสือ');
@@ -52,19 +53,21 @@ const Home = () => {
   };
 
   const handleEdit = (id) => {
-    const originalBook = originalBooks.find((book) => book.id === id);
-    if (originalBook) {
-      navigate(`/update/${id}`, { state: { originalBook } });
-    } else {
-      console.error('ไม่พบข้อมูลหนังสือที่ต้องการแก้ไข');
-    }
+    console.log(id)
+    navigate(`/update/${id}`);
+    // const originalBook = originalBooks.find((book) => book.id === id);
+    // if (originalBook) {
+      
+    // } else {
+    //   console.error('ไม่พบข้อมูลหนังสือที่ต้องการแก้ไข');
+    // }
   };
 
   return (
     <div>
       {books.map((book) => (
         <Card
-          key={book.id}
+          key={book._id}
           sx={{
             maxWidth: 250,
             width: '30%',
@@ -95,7 +98,7 @@ const Home = () => {
           <CardActions>
             {isAdmin && (
               <Button
-                onClick={() => handleEdit(book.id)}
+                onClick={() => handleEdit(book._id)}
                 variant="contained"
                 color="primary"
               >
