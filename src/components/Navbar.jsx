@@ -15,6 +15,7 @@ const userRole = 'admin'; // แทนค่านี้ด้วยบทบา
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [books, setBooks] = useState([]);
   const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
@@ -44,6 +45,11 @@ function Navbar() {
       navigate('/profile');
     }
   };
+  const handleAdmin = () => {
+    if (isLoggedIn) {
+      navigate('/admin');
+    }
+  };
 
   // สถานะสำหรับการค้นหา
   const [search, setSearch] = useState('');
@@ -51,7 +57,13 @@ function Navbar() {
   // ฟังก์ชันสำหรับการค้นหา
   const handleSearch = () => {
     console.log('Searching for:', search);
+    const filteredBooks = books.filter((book) => {
+      const titleMatches = book.title.toLowerCase().includes(search.toLowerCase());
+      const authorMatches = book.author.toLowerCase().includes(search.toLowerCase());
+      return titleMatches || authorMatches;
+    });
   };
+
 
   // ตรวจสอบว่าผู้ใช้เข้าสู่ระบบหรือไม่
   const isLoggedIn = userRole === 'admin';
@@ -109,6 +121,9 @@ function Navbar() {
             <div>
               <Button onClick={handleProfile} component={Link} to="/Profile" sx={{ mx: 1, color: 'white' }}>
                 Profile
+              </Button>
+              <Button onClick={handleProfile} component={Link} to="/Admin" sx={{ mx: 1, color: 'white' }}>
+                Admin
               </Button>
               <Button onClick={handleLogout} component={Link} to="/login" sx={{ mx: 1, color: 'white' }}>
                 Logout

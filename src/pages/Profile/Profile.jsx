@@ -1,44 +1,73 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import '../Profile/css/profile.css';
+const USER_URL = '/users'
 
 export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
-  const [isAdmin] = useState(true); // ตั้งค่าให้เป็น true หรือ false ตามสิทธิ์ของผู้ใช้
-  const [name, setName] = useState("AUM");
-  const [username, setUsername] = useState("NATTHACHA MUMDAENG");
-  const [password, setPassword] = useState("12345");
-  const [email, setEmail] = useState("644259007@webmail.npru.ac.th");
-  const [profileUrl, setProfileUrl] = useState("https://cdn-icons-png.flaticon.com/512/3135/3135715.png");
+  const [isAdmin] = useState(true); 
+  const [name, setName] = useState();
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+  const [email, setEmail] = useState();
+  const [profileUrl, setProfileUrl] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+
+  
+  // useEffect(() => {
+  //   fetch('/api/profile') 
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setIsLoading(false);
+  //       setName(data.name);
+  //       setUsername(data.username);
+  //       setPassword(data.password);
+  //       setEmail(data.email);
+  //       setProfileUrl(data.profileUrl);
+  //     })
+  //     .catch((error) => {
+  //       console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+  //     });
+  // }, []);
 
   const handleSave = () => {
-    // ดำเนินการบันทึกการเปลี่ยนแปลงข้อมูลที่ผู้ใช้กรอก
     setIsEditing(false);
   };
 
   const handleCancel = () => {
-    // ดำเนินการยกเลิกการแก้ไข
     setIsEditing(false);
-
-    // คืนค่าข้อมูลเดิม
-    setName("AUM");
-    setUsername("NATTHACHA MUMDAENG");
-    setPassword("12345");
-    setEmail("644259007@webmail.npru.ac.th");
-    setProfileUrl("https://cdn-icons-png.flaticon.com/512/3135/3135715.png");
+    
+    
+    fetch('/users') 
+      .then((response) => response.json())
+      .then((data) => {
+        setName(data.name);
+        setUsername(data.username);
+        setPassword(data.password);
+        setEmail(data.email);
+        setProfileUrl(data.profileUrl);
+      })
+      .catch((error) => {
+        console.error('เกิดข้อผิดพลาดในการดึงข้อมูล:', error);
+      });
   };
-
+  
   return (
     <div className="container">
       <div className="card">
         <h2>Profile</h2>
         <div className="profile-url">
-          <img
-            src={profileUrl}
-            alt="รูปโปรไฟล์ของคุณ"
-            style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '50%' }}
-          />
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            <img
+              src={profileUrl}
+              alt="รูปโปรไฟล์ของคุณ"
+              style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '50%' }}
+            />
+          )}
         </div>
         <div className="user-details">
           <div className="username">
@@ -96,7 +125,6 @@ export default function Profile() {
               profileUrl
             )}
           </div>
-
         </div>
         <div className="actions">
           <div className="actions">
